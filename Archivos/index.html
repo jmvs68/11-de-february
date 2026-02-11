@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap"
+      rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+    <!-- Hola chismocita, que haces aquí? -->
+    <title>Juego San Valentín 💘</title>
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #b51a3a, #ff6f77);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .game-container {
+        background: #ffdee3;
+        width: 90%;
+        max-width: 520px;
+        padding: 24px;
+        border-radius: 32px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        text-align: center;
+      }
+
+      h1 {
+        color: #c00000;
+        font-size: 36px;
+        font-family: "Dancing Script", cursive;
+        margin-top: 4px;
+      }
+      p {
+        color: #5e081e;
+        font-size: 20px;
+        font-family: "Playfair Display", italic;
+        font-style: italic;
+        line-height: 1.2;
+        margin: 16px;
+      }
+
+      button {
+        min-width: 116px;
+        padding: 14px 22px;
+        border: none;
+        border-radius: 18px;
+        font-weight: 550;
+        cursor: pointer;
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+        font-family: "Poppins", sans-serif;
+        
+      }
+
+      .primary {
+        background: linear-gradient(135deg, #ff2644, #e48397);
+        color: #fff;
+      }
+      .option-btn {
+        background: linear-gradient(158deg, #fdd2e8, #fff);
+        border-radius: 22px;
+        width: 80%;
+        border: 1px solid #fd9ed0;
+        color: #a93371;
+      }
+      .yes {
+        background: linear-gradient(135deg, #eb2f9f, #bc82e4);
+        color: #ffeef7;
+      }
+      .no {
+        background: linear-gradient(135deg, #b51a1a, #dc5682);
+        color: #ffeef7;
+      }
+
+      .screen {
+        display: none;
+      }
+      .screen.active {
+        display: block;
+      }
+
+      .options {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 20px;
+        align-items: center;
+      }
+
+      .error {
+        display: none;
+        font-size: 20px;
+        margin-top: 12px;
+        padding: 12px;
+        color: #a1002b;
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+
+      .retry {
+        display: none;
+        margin-top: 12px;
+        background: linear-gradient(135deg, #ff2644, #e48397);
+        color: #fff;
+        font-family: "Poppins", sans-serif;
+      }
+
+      .final-qstn {
+        margin-bottom: 8px;
+      }
+
+      .buttons-final {
+        position: relative;
+        height: 100px;
+      }
+
+      .btn-wrap {
+        position: absolute;
+        left: 50%;
+        top: 16px;
+        transform: translateX(-50%) scale(var(--scale, 1));
+        transition: transform 0.25s ease;
+      }
+
+      .btn-wrap.no-wrap {
+        top: 72px;
+      }
+
+      .no-msg {
+        margin-top: 5%;
+        margin-bottom: 0.5%;
+      }
+      
+      @media (hover: hover) {
+  button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.18);
+  }
+}
+      
+      @keyframes shake {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-4px); }
+  40% { transform: translateX(4px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+  100% { transform: translateX(0); }
+}
+
+.option-btn.shake {
+  animation: shake 0.35s;
+  background: #ffe5ea;
+  border-color: #ff4d6d;
+}
+    </style>
+  </head>
+  <body>
+    <div class="game-container">
+      <div class="screen active" id="s1">
+        <h1>FELICIDADES!!! Has sido escogida para ser mi San Valentín 🎉🎉</h1>
+        <button class="primary" onclick="document.getElementById('tapsnd').currentTime=0; document.getElementById('tapsnd').play(); go(2)">👉 Más información 😸</button>
+      </div>
+
+      <div class="screen" id="s2">
+        <h1>Razones por las que fuiste elegida 😱😱</h1>
+        <p>1- Tus ojos cafecitos, preciosísimos hacen que se me acelere el pulso.</p> 
+        <p>2- Ese corazón bello y divino, tan capaz de sentir me atrae con el alma.</p>
+        <p>3- Todo lo que tuvo que darse para conocernos, te hace ser la personita más única y especial para mí.</p>
+        <p>PERO: Antes de seguir, necesito que respondas unas preguntas 🫣</p>
+        <button class="primary" onclick="document.getElementById('tapsnd').currentTime=0; document.getElementById('tapsnd').play(); go(3)">Va que va 😍</button>
+      </div>
+
+      <div class="screen" id="s3">
+        <h1>Cuándo hicimos nuestra primera llamadita?</h1>
+        <div class="options">
+          <button class="option-btn wrong" onclick="document.getElementById('errorsnd').currentTime=0; document.getElementById('errorsnd').play(); fail(3,'Enserio? 😭', this)">28 de abril</button>
+          <button class="option-btn" onclick="document.getElementById('yupisnd').currentTime=0; document.getElementById('yupisnd').play(); go(4)">6 de mayo</button>
+          <button class="option-btn wrong" onclick="document.getElementById('errorsnd').currentTime=0; document.getElementById('errorsnd').play(); fail(3,'Como que no te acuerdas 😡', this)">14 de mayo</button>
+        </div>
+        <p class="error" id="e3"></p>
+        <button class="retry" id="r3" onclick="retry(3)">De nuevo 😾</button>
+      </div>
+
+      <div class="screen" id="s4">
+        <h1>Cual fue la fecha en la que "formalizamos"</h1>
+        <div class="options">
+          <button class="option-btn wrong"  onclick="document.getElementById('errorsnd').currentTime=0; document.getElementById('errorsnd').play(); fail(4,'Segura? 🤨', this)">12 de agosto</button>
+          <button class="option-btn wrong"  onclick="document.getElementById('errorsnd').currentTime=0; document.getElementById('errorsnd').play(); fail(4,'Lo estas haciendo a propósito 😿', this)">24 de agosto</button>
+          <button class="option-btn" onclick="document.getElementById('yupisnd').currentTime=0; document.getElementById('yupisnd').play(); go(5)">15 de agosto</button>
+        </div>
+        <p class="error" id="e4"></p>
+        <button class="retry" id="r4" onclick="retry(4)">De nuevo 😾</button>
+      </div>
+
+      <div class="screen" id="s5">
+        <h1>Y finalmente: Señorita Haaz de Sabi...</h1>
+        <p class="final-qstn">¿Quieres ser mi San Valentín?</p>
+
+        <div class="buttons-final">
+          <div class="btn-wrap yes-wrap" id="yesWrap">
+            <button class="yes" id="yesBtn"  onclick="document.getElementById('finalsnd').currentTime=0; document.getElementById('finalsnd').play()">Siiii 😻😻</button>
+          </div>
+          <div class="btn-wrap no-wrap" id="noWrap">
+            <button class="no" id="noBtn" onclick="document.getElementById('errorsnd').play()">No 🤧</button>
+          </div>
+        </div>
+
+        <p class="no-msg" id="noMsg"></p>
+      </div>
+
+      <div class="screen" id="s6">
+        <h1>Muejeje, muy bien corazoncito 💘💘</h1>
+        <p>Has pasado satisfactoriamente la prueba. 🥳</p>
+        <p>Por un San Valentín y resto de febrero lleno de amor y alegrías, juntos y con amistades. 😻😻</p>
+      </div>
+    </div>
+    <audio id="tapsnd" src="audio/tapsnd.wav" preload="auto"></audio>
+    <audio id="yupisnd" src="audio/yupisnd.wav" preload="auto"></audio>
+    <audio id="errorsnd" src="audio/errorsnd.wav" preload="auto"></audio>
+    <audio id="finalsnd" src="audio/finalsnd.wav" preload="auto"></audio>
+    <audio id="bgmusic" src="error.mp3" preload="auto"></audio>
+    <script>
+  let noScale = 1,
+      yesScale = 1,
+      noClicks = 0;
+
+  const msgs = [
+    "Yo sé que tu quieres 😝",
+    "No te hagas la difíciiiil 😾",
+    "Ándale, dale al sí 😻",
+    "Panecilloooooo 😤😤",
+    "Ahhh vas a seguirle???",
+    "A ver intentalo muajajajaja 😹",
+    "Jennifferrrr, te doy unos ruffles moradosss",
+    "Jijijijiji"
+  ];
+
+  const tapSound = document.getElementById("tapSound");
+  const errorSound = document.getElementById("errorSound");
+
+  function playTap() {
+    tapSound.currentTime = 0;
+    tapSound.play();
+  }
+
+  function tapAndGo(n) {
+    playTap();
+    go(n);
+  }
+
+  function go(n) {
+    document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+    document.getElementById("s" + n).classList.add("active");
+  }
+
+  function fail(n, msg, btn) {
+  const error = document.getElementById("e" + n);
+  const retry = document.getElementById("r" + n);
+
+  error.textContent = msg;
+  error.style.display = "block";
+  retry.style.display = "inline-block";
+
+  if (navigator.vibrate) {
+    navigator.vibrate([150, 80, 150]);
+  }
+
+  if (btn) {
+    btn.classList.add("shake");
+    setTimeout(() => btn.classList.remove("shake"), 400);
+  }
+}
+  function retry(n) {
+    document.getElementById("e" + n).style.display = "none";
+    document.getElementById("r" + n).style.display = "none";
+  }
+
+  const noBtn = document.getElementById("noBtn");
+  const yesBtn = document.getElementById("yesBtn");
+  const noWrap = document.getElementById("noWrap");
+  const yesWrap = document.getElementById("yesWrap");
+  const noMsg = document.getElementById("noMsg");
+
+  noBtn.addEventListener("pointerdown", () => {
+    noScale *= 0.85;
+    yesScale *= 1.15;
+    noWrap.style.setProperty("--scale", noScale);
+    yesWrap.style.setProperty("--scale", yesScale);
+    noWrap.style.top = 60 + Math.random() * 40 + "px";
+    noMsg.textContent = msgs[noClicks++ % msgs.length];
+  });
+
+  yesBtn.addEventListener("click", () => {
+    playTap();
+    go(6);
+  });
+</script>
+  </body>
+</html>
